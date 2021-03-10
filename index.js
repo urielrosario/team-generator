@@ -1,18 +1,95 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
+const path = require("path");
 
 // TODO: Create an array of questions for user input
-const questions = [];
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
+function generatePrompt(answers) {
+  return inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "role",
+        message: "What is your role in your team?",
+        choices: ["Manager", "Intern", "Engineer"],
+      },
+    ])
+    .then(function (answers) {
+      if (answers.role === "Manager") {
+        inquirer.prompt([
+          {
+            type: "input",
+            name: "managersName",
+            message: "What's your name? ",
+          },
+          {
+            type: "input",
+            name: "managersId",
+            message: "What's your ID? ",
+          },
+          {
+            type: "input",
+            name: "managersEm",
+            message: "What's your Email? ",
+          },
+          {
+            type: "input",
+            name: "managersOffice",
+            message: "What's your Office Number? ",
+          },
+        ]);
+      } else if (answers.role === "Intern") {
+        inquirer.prompt([
+          {
+            type: "input",
+            name: "internsName",
+            message: "What's your name? ",
+          },
+          {
+            type: "input",
+            name: "internsId",
+            message: "What's your ID? ",
+          },
+          {
+            type: "input",
+            name: "internsEm",
+            message: "What's your Email? ",
+          },
+          {
+            type: "input",
+            name: "internsSchool",
+            message: "What School did you go to? ",
+          },
+        ]);
+      } else if (answers.role === "Engineer") {
+        inquirer.prompt([
+          {
+            type: "input",
+            name: "engineersName",
+            message: "What's your name? ",
+          },
+          {
+            type: "input",
+            name: "engineersId",
+            message: "What's your ID? ",
+          },
+          {
+            type: "input",
+            name: "engineersEm",
+            message: "What's your Email? ",
+          },
+          {
+            type: "input",
+            name: "engineersGithub",
+            message: "What's your Github? ",
+          },
+        ]);
+      }
+    });
+}
 
 // Function call to initialize app
-init();
+generatePrompt();
 
 /*
 # 10 Object-Oriented Programming: Team Profile Generator
