@@ -1,10 +1,23 @@
 // TODO: Include packages needed for this application
+const Manager = require("./container/Manager");
+const Engineer = require("./container/Engineer");
+const Intern = require("./container/Intern");
+
 const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
 
+// html templates
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+
+// html render
+const render = require("./container/Manager");
+
+let allAnswers = [];
+
 // TODO: Create an array of questions for user input
-function generatePrompt(answers) {
+function startPrompt(answers) {
   return inquirer
     .prompt([
       {
@@ -19,77 +32,99 @@ function generatePrompt(answers) {
         inquirer.prompt([
           {
             type: "input",
-            name: "managersName",
+            name: "name",
             message: "What's your name? ",
           },
           {
             type: "input",
-            name: "managersId",
+            name: "id",
             message: "What's your ID? ",
           },
           {
             type: "input",
-            name: "managersEm",
+            name: "email",
             message: "What's your Email? ",
           },
           {
             type: "input",
-            name: "managersOffice",
+            name: "office",
             message: "What's your Office Number? ",
           },
         ]);
       } else if (answers.role === "Intern") {
-        inquirer.prompt([
-          {
-            type: "input",
-            name: "internsName",
-            message: "What's your name? ",
-          },
-          {
-            type: "input",
-            name: "internsId",
-            message: "What's your ID? ",
-          },
-          {
-            type: "input",
-            name: "internsEm",
-            message: "What's your Email? ",
-          },
-          {
-            type: "input",
-            name: "internsSchool",
-            message: "What School did you go to? ",
-          },
-        ]);
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              name: "name",
+              message: "What's your name? ",
+            },
+            {
+              type: "input",
+              name: "id",
+              message: "What's your ID? ",
+            },
+            {
+              type: "input",
+              name: "email",
+              message: "What's your Email? ",
+            },
+            {
+              type: "input",
+              name: "school",
+              message: "What School did you go to? ",
+            },
+          ])
+          .then((answers) => {
+            const intern = new Intern(
+              answers.name,
+              answers.id,
+              answers.email,
+              answers.school
+            );
+            allAnswers.push(intern);
+            addMoreUsers(allAnswers);
+          });
       } else if (answers.role === "Engineer") {
-        inquirer.prompt([
-          {
-            type: "input",
-            name: "engineersName",
-            message: "What's your name? ",
-          },
-          {
-            type: "input",
-            name: "engineersId",
-            message: "What's your ID? ",
-          },
-          {
-            type: "input",
-            name: "engineersEm",
-            message: "What's your Email? ",
-          },
-          {
-            type: "input",
-            name: "engineersGithub",
-            message: "What's your Github? ",
-          },
-        ]);
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              name: "name",
+              message: "What's your name? ",
+            },
+            {
+              type: "input",
+              name: "id",
+              message: "What's your ID? ",
+            },
+            {
+              type: "input",
+              name: "email",
+              message: "What's your Email? ",
+            },
+            {
+              type: "input",
+              name: "github",
+              message: "What's your Github? ",
+            },
+          ])
+          .then((answers) => {
+            const engineer = new Engineer(
+              answers.name,
+              answers.id,
+              answers.email,
+              answers.github
+            );
+            allAnswers.push(engineer);
+            addMoreUsers(allAnswers);
+          });
       }
     });
 }
 
 // Function call to initialize app
-generatePrompt();
+startPrompt();
 
 /*
 # 10 Object-Oriented Programming: Team Profile Generator
