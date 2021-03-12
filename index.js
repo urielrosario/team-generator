@@ -12,7 +12,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // html render
-const render = require("./container/Manager");
+const render = require("./container/htmlRenderer");
 
 let allAnswers = [];
 
@@ -29,28 +29,39 @@ function startPrompt(answers) {
     ])
     .then(function (answers) {
       if (answers.role === "Manager") {
-        inquirer.prompt([
-          {
-            type: "input",
-            name: "name",
-            message: "What's your name? ",
-          },
-          {
-            type: "input",
-            name: "id",
-            message: "What's your ID? ",
-          },
-          {
-            type: "input",
-            name: "email",
-            message: "What's your Email? ",
-          },
-          {
-            type: "input",
-            name: "office",
-            message: "What's your Office Number? ",
-          },
-        ]);
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              name: "name",
+              message: "What's your name? ",
+            },
+            {
+              type: "input",
+              name: "id",
+              message: "What's your ID? ",
+            },
+            {
+              type: "input",
+              name: "email",
+              message: "What's your Email? ",
+            },
+            {
+              type: "input",
+              name: "office",
+              message: "What's your Office Number? ",
+            },
+          ])
+          .then((answers) => {
+            const manager = new Manager(
+              answers.name,
+              answers.id,
+              answers.email,
+              answers.github
+            );
+            allAnswers.push(manager);
+            addMoreUsers(allAnswers);
+          });
       } else if (answers.role === "Intern") {
         inquirer
           .prompt([
@@ -119,6 +130,28 @@ function startPrompt(answers) {
             allAnswers.push(engineer);
             addMoreUsers(allAnswers);
           });
+      }
+    });
+}
+// adding more members
+function addMoreUsers() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "addMoreUsers",
+        message: "Add a team member?",
+        choices: ["yes", "no"],
+      },
+    ])
+    .then(function (yesorno) {
+      if (yesorno.addMoreUsers === "yes") {
+        startPrompt();
+      } else {
+        const finishHTML = render(allAnswers);
+        fs.writeFile("./generatedHTML/final.html", finishHTML, (err) => {
+          if (err) return console.error(err);
+        });
       }
     });
 }
