@@ -63,7 +63,8 @@ function startPrompt(answers) {
             allAnswers.push(manager);
             addMoreUsers(allAnswers);
           });
-      } else if (answers.role === "Intern") {
+      }
+      if (answers.role === "Intern") {
         inquirer
           .prompt([
             {
@@ -97,7 +98,8 @@ function startPrompt(answers) {
             allAnswers.push(intern);
             addMoreUsers(allAnswers);
           });
-      } else if (answers.role === "Engineer") {
+      }
+      if (answers.role === "Engineer") {
         inquirer
           .prompt([
             {
@@ -150,7 +152,7 @@ function addMoreUsers() {
         startPrompt();
       } else {
         const finishHTML = render(allAnswers);
-        fs.writeFile("./generatedHTML/final.html", finishHTML, (err) => {
+        fs.writeFile("./generatedHTML/team.html", finishHTML, (err) => {
           if (err) return console.error(err);
         });
       }
