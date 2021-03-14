@@ -44,3 +44,9 @@ THEN I exit the application, and the HTML is generated
 - Bootcamp assignments
 
 ## Screenshot
+
+![screenshot](images/screenshot.png)
+
+## WalkThrough
+
+![walkthrough](images/walkthrough.gif)
